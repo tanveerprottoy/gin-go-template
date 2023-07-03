@@ -1,9 +1,9 @@
 package main
 
-import "github.com/tanveerprottoy/templates-go-gin/internal/app"
+import "github.com/tanveerprottoy/go-gin-template/internal/app/template"
 
 func main() {
-	a := app.NewApp()
+	a := template.NewApp()
 	a.Run()
 }
 

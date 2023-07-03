@@ -5,11 +5,11 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tanveerprottoy/templates-go-gin/internal/app/module/auth/dto"
-	"github.com/tanveerprottoy/templates-go-gin/internal/pkg/constant"
-	"github.com/tanveerprottoy/templates-go-gin/pkg/config"
-	"github.com/tanveerprottoy/templates-go-gin/pkg/httppkg"
-	"github.com/tanveerprottoy/templates-go-gin/pkg/response"
+	"github.com/tanveerprottoy/go-gin-template/internal/app/template/module/auth/dto"
+	"github.com/tanveerprottoy/go-gin-template/internal/pkg/constant"
+	"github.com/tanveerprottoy/go-gin-template/pkg/config"
+	"github.com/tanveerprottoy/go-gin-template/pkg/httppkg"
+	"github.com/tanveerprottoy/go-gin-template/pkg/response"
 )
 
 type ServiceRemote struct {

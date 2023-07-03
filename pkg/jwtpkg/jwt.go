@@ -3,8 +3,8 @@ package jwtpkg
 import (
 	"errors"
 
-	"github.com/tanveerprottoy/templates-go-gin/pkg/config"
-	"github.com/tanveerprottoy/templates-go-gin/pkg/timepkg"
+	"github.com/tanveerprottoy/go-gin-template/pkg/config"
+	"github.com/tanveerprottoy/go-gin-template/pkg/timepkg"
 
 	"github.com/golang-jwt/jwt/v4"
 )

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"log"
 
-	"github.com/tanveerprottoy/templates-go-gin/pkg/file"
+	"github.com/tanveerprottoy/go-gin-template/pkg/file"
 )
 
 var (

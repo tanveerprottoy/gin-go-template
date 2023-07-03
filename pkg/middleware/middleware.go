@@ -6,21 +6,26 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tanveerprottoy/templates-go-gin/pkg/constant"
-	"github.com/tanveerprottoy/templates-go-gin/pkg/jwtpkg"
-	"github.com/tanveerprottoy/templates-go-gin/pkg/response"
+	"github.com/tanveerprottoy/go-gin-template/pkg/constant"
+	"github.com/tanveerprottoy/go-gin-template/pkg/jwtpkg"
+	"github.com/tanveerprottoy/go-gin-template/pkg/response"
 )
 
 // JWTMiddleWare checks auth of the request
 func JWTMiddleWare() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		tokenHeader := ctx.Request.Header["Authorization"][0]
-		if tokenHeader == "" {
+		h := ctx.Request.Header["Authorization"]
+		if h == nil && len(h) == 0 {
+			response.RespondError(http.StatusForbidden, errors.New("auth token is missing"), ctx)
+			return
+		}
+		tkHeader := h[0]
+		if tkHeader == "" {
 			// Token is missing
 			response.RespondError(http.StatusForbidden, errors.New("auth token is missing"), ctx)
 			return
 		}
-		split := strings.Split(tokenHeader, " ")
+		split := strings.Split(tkHeader, " ")
 		// token format is `Bearer {tokenBody}`
 		if len(split) != 2 {
 			response.RespondError(http.StatusForbidden, errors.New("token format is invalid"), ctx)
@@ -43,14 +48,4 @@ func JWTMiddleWare() gin.HandlerFunc {
 		ctx.Header().Set("Content-Type", "application/json")
 		ctx.ServeHTTP(w, r)
 	}
-} */
-
-// CORSEnableMiddleWare enable cors
-/* func CORSEnableMiddleWare(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Accept, Authorization, Content-Type, X-CSRF-Token")
-		next.ServeHTTP(w, r)
-	})
 } */

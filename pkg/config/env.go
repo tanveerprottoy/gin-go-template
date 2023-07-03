@@ -12,8 +12,6 @@ func init() {
 	if err != nil {
 		log.Println("Error loading .env file")
 	}
-	dbUser := GetEnvValue("DB_USER")
-	log.Println(dbUser)
 }
 
 func GetEnvValue(key string) string {

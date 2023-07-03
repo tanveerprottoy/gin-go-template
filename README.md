@@ -1,5 +1,5 @@
 ## Running the app
 
 ```cli
-go run cmd/main.go
+go run cmd/template/main.go
 ```

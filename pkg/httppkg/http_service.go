@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/tanveerprottoy/templates-go-gin/pkg/adapter"
+	"github.com/tanveerprottoy/go-gin-template/pkg/adapter"
 )
 
 func Request[T any](

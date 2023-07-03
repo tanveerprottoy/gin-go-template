@@ -2,9 +2,9 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/tanveerprottoy/templates-go-gin/internal/app/module/user"
-	"github.com/tanveerprottoy/templates-go-gin/internal/pkg/constant"
-	"github.com/tanveerprottoy/templates-go-gin/internal/pkg/middleware"
+	"github.com/tanveerprottoy/go-gin-template/internal/app/template/module/user"
+	"github.com/tanveerprottoy/go-gin-template/internal/pkg/constant"
+	"github.com/tanveerprottoy/go-gin-template/internal/pkg/middleware"
 )
 
 func RegisterUserRoutes(e *gin.Engine, version string, module *user.Module, authMiddleWare *middleware.AuthMiddleware) {

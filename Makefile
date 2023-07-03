@@ -1,5 +1,5 @@
 build:
-	go build -o bin/app cmd/app/main.go
+	go build -o bin/app cmd/template/main.go
 
 run:
-	go run cmd/app/main.go
+	go run cmd/template/main.go

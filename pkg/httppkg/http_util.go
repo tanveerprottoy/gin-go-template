@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tanveerprottoy/templates-go-gin/pkg/stringspkg"
+	"github.com/tanveerprottoy/go-gin-template/pkg/stringspkg"
 )
 
 func GetURLParam(ctx *gin.Context, key string) string {
@@ -18,7 +18,11 @@ func GetQueryParam(ctx *gin.Context, key string) string {
 }
 
 func ParseAuthToken(ctx *gin.Context) ([]string, error) {
-	tkHeader := ctx.Request.Header["Authorization"][0]
+	h := ctx.Request.Header["Authorization"]
+	if h == nil && len(h) == 0 {
+		return nil, errors.New("auth token is missing")
+	}
+	tkHeader := h[0]
 	if tkHeader == "" {
 		// Token is missing
 		return nil, errors.New("auth token is missing")

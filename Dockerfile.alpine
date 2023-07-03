@@ -5,13 +5,13 @@ WORKDIR /app
 
 COPY go.mod go.sum ./
 
-COPY ./config/prod.env ./.env
+COPY ./config/container.env ./.env
 
 RUN go mod download
 
 COPY ./ ./
 
-RUN go build -o ./app ./cmd/app/main.go
+RUN go build -o ./app ./cmd/template/main.go
 
 # deploy stage
 FROM golang:1.19-alpine

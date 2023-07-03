@@ -1,26 +1,38 @@
 version: "3.9"
 services:
-  rest-api-starter-go:
+  postgres:
+    image: postgres
+    networks:
+      - go-gin-template-net
+    ports:
+      - "5432:5432"
+    environment:
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=postgres"
+    volumes:
+      - service-data:/var/lib/postgresql/data
+      # copy the sql script to create db & table
+      - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    healthcheck:
+      test: pg_isready -U postgres
+  go-gin-template:
     build:
       context: .
-      dockerfile: ./Dockerfile.alpine
-    image: rest-api-starter-go
-    container_name: rest-api-starter-go
-    env_file: .env
+      dockerfile: ./Dockerfile.distroless
+    image: go-gin-template
+    container_name: go-gin-template
+    networks:
+      - go-gin-template-net
     ports:
       - 8080:8080
+    env_file:
+      - ./config/container.env
     depends_on:
-      - mongodb
-  mongodb:
-    image: "mongo:latest"
-    container_name: mongo
-    volumes:
-      - starter-data:/var/lib/mongo/data
-    ports:
-      - 27017:27017
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
-      - MONGO_INITDB_DATABASE=starterDB
+      postgres:
+        condition: service_healthy
+networks:
+  go-gin-template-net:
+    name: go-gin-template-network
 volumes:
-  starter-data:
+  service-data:
+    driver: local
