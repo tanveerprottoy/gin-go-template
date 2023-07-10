@@ -19,20 +19,20 @@ func NewService(userService *user.Service) *Service {
 }
 
 func (s *Service) Authorize(ctx *gin.Context) (entity.User, error) {
-	var u entity.User
+	var e entity.User
 	splits, err := httppkg.ParseAuthToken(ctx)
 	if err != nil {
-		return u, err
+		return e, err
 	}
 	tokenBody := splits[1]
 	claims, err := jwtpkg.VerifyToken(tokenBody)
 	if err != nil {
-		return u, err
+		return e, err
 	}
 	// find user
-	u, err = s.userService.ReadOneInternal(claims.Payload.Id)
+	e, err = s.userService.ReadOneInternal(claims.Payload.Id)
 	if err != nil {
-		return u, err
+		return e, err
 	}
-	return u, nil
+	return e, nil
 }
