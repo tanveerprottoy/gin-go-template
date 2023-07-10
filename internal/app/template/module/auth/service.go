@@ -1,14 +1,11 @@
 package auth
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/tanveerprottoy/go-gin-template/internal/app/template/module/user"
 	"github.com/tanveerprottoy/go-gin-template/internal/app/template/module/user/entity"
 	"github.com/tanveerprottoy/go-gin-template/pkg/httppkg"
 	"github.com/tanveerprottoy/go-gin-template/pkg/jwtpkg"
-	"github.com/tanveerprottoy/go-gin-template/pkg/response"
 )
 
 type Service struct {
@@ -21,23 +18,21 @@ func NewService(userService *user.Service) *Service {
 	return s
 }
 
-func (s *Service) Authorize(ctx *gin.Context) *entity.User {
+func (s *Service) Authorize(ctx *gin.Context) (entity.User, error) {
+	var u entity.User
 	splits, err := httppkg.ParseAuthToken(ctx)
 	if err != nil {
-		response.RespondError(http.StatusForbidden, err, ctx)
-		return nil
+		return u, err
 	}
 	tokenBody := splits[1]
 	claims, err := jwtpkg.VerifyToken(tokenBody)
 	if err != nil {
-		response.RespondError(http.StatusForbidden, err, ctx)
-		return nil
+		return u, err
 	}
 	// find user
-	u, err := s.userService.ReadOneInternal(claims.Payload.Id)
+	u, err = s.userService.ReadOneInternal(claims.Payload.Id)
 	if err != nil {
-		response.RespondError(http.StatusForbidden, err, ctx)
-		return nil
+		return u, err
 	}
-	return &u
+	return u, nil
 }

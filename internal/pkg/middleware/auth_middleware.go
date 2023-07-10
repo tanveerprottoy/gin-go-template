@@ -19,13 +19,13 @@ func NewAuthMiddleware(s *auth.Service) *AuthMiddleware {
 // AuthUserMiddleWare
 func (m *AuthMiddleware) AuthUser() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		payload := m.Service.Authorize(ctx)
-		if payload == nil {
+		e, err := m.Service.Authorize(ctx)
+		if err != nil {
 			// need to abort the middleware chain
 			ctx.Abort()
 			return
 		}
-		ctx.Set(constant.KeyAuthUser, payload)
+		ctx.Set(constant.KeyAuthUser, e)
 		ctx.Next()
 	}
 }
