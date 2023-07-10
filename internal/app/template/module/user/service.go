@@ -22,11 +22,11 @@ func NewService(r sqlxpkg.Repository[entity.User]) *Service {
 	return s
 }
 
-func (s Service) ReadOneInternal(id string) (entity.User, error) {
+func (s *Service) ReadOneInternal(id string) (entity.User, error) {
 	return s.repository.ReadOne(id)
 }
 
-func (s Service) Create(d *dto.CreateUpdateUserDto, ctx context.Context) (entity.User, *errorpkg.HTTPError) {
+func (s *Service) Create(d *dto.CreateUpdateUserDto, ctx context.Context) (entity.User, *errorpkg.HTTPError) {
 	// convert dto to entity
 	b := entity.User{}
 	b.Name = d.Name
@@ -40,7 +40,7 @@ func (s Service) Create(d *dto.CreateUpdateUserDto, ctx context.Context) (entity
 	return b, nil
 }
 
-func (s Service) ReadMany(limit, page int, ctx context.Context) (map[string]any, *errorpkg.HTTPError) {
+func (s *Service) ReadMany(limit, page int, ctx context.Context) (map[string]any, *errorpkg.HTTPError) {
 	m := make(map[string]any)
 	m["items"] = make([]entity.User, 0)
 	m["limit"] = limit
@@ -54,7 +54,7 @@ func (s Service) ReadMany(limit, page int, ctx context.Context) (map[string]any,
 	return m, nil
 }
 
-func (s Service) ReadOne(id string, ctx context.Context) (entity.User, *errorpkg.HTTPError) {
+func (s *Service) ReadOne(id string, ctx context.Context) (entity.User, *errorpkg.HTTPError) {
 	b, err := s.ReadOneInternal(id)
 	if err != nil {
 		return b, errorpkg.HandleDBError(err)
@@ -62,7 +62,7 @@ func (s Service) ReadOne(id string, ctx context.Context) (entity.User, *errorpkg
 	return b, nil
 }
 
-func (s Service) Update(id string, d *dto.CreateUpdateUserDto, ctx context.Context) (entity.User, *errorpkg.HTTPError) {
+func (s *Service) Update(id string, d *dto.CreateUpdateUserDto, ctx context.Context) (entity.User, *errorpkg.HTTPError) {
 	b, err := s.ReadOneInternal(id)
 	if err != nil {
 		return b, errorpkg.HandleDBError(err)
@@ -79,7 +79,7 @@ func (s Service) Update(id string, d *dto.CreateUpdateUserDto, ctx context.Conte
 	return b, &errorpkg.HTTPError{Code: http.StatusBadRequest, Err: errorpkg.NewError(constant.OperationNotSuccess)}
 }
 
-func (s Service) Delete(id string, ctx context.Context) (entity.User, *errorpkg.HTTPError) {
+func (s *Service) Delete(id string, ctx context.Context) (entity.User, *errorpkg.HTTPError) {
 	b, err := s.ReadOneInternal(id)
 	if err != nil {
 		return b, errorpkg.HandleDBError(err)
