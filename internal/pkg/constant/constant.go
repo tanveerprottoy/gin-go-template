@@ -21,4 +21,4 @@ const KeyPage = "page"
 const KeyLimit = "limit"
 
 // remote userservice auth endpoint
-const UserServiceAuthEndpoint = "/userservice/api/v2/auth/get-user-by-token"
+const UserServiceAuthEndpoint = "/api/v2/auth/get-user"
